@@ -1,22 +1,44 @@
 import { Github, Linkedin, Mail, Phone, MapPin, Download, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-const TypeWriter = ({ text, delay = 100, className = "" }: { text: string; delay?: number; className?: string }) => {
+const roles = [
+  "Data Analyst",
+  "AI Automator", 
+  "Data Engineer",
+  "Data Scientist",
+  "Machine Learning Engineer"
+];
+
+const TypeWriterCycle = ({ words, delay = 100, pauseDelay = 2000 }: { words: string[]; delay?: number; pauseDelay?: number }) => {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, delay);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, delay, text]);
+    const currentWord = words[currentWordIndex];
+    
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayText.length < currentWord.length) {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), pauseDelay);
+        }
+      } else {
+        if (displayText.length > 0) {
+          setDisplayText(displayText.slice(0, -1));
+        } else {
+          setIsDeleting(false);
+          setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        }
+      }
+    }, isDeleting ? delay / 2 : delay);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, currentWordIndex, words, delay, pauseDelay]);
 
   return (
-    <span className={className}>
+    <span className="text-primary">
       {displayText}
       <span className="typing-cursor" />
     </span>
@@ -43,7 +65,7 @@ const Hero = () => {
   const [showSubtitle, setShowSubtitle] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSubtitle(true), 1500);
+    const timer = setTimeout(() => setShowSubtitle(true), 1800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -75,19 +97,17 @@ const Hero = () => {
           </div>
 
           {/* Name */}
-          <h1 className="fade-in-up stagger-2 font-display text-5xl md:text-7xl font-bold mb-4">
+          <h1 className="fade-in-up stagger-2 font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
             <span className="text-foreground">Hi, I'm </span>
-            <AnimatedLetters text="Blessen Joel" className="glow-text" />
+            <AnimatedLetters text="Blessen Joel Gorinkala" className="glow-text" />
           </h1>
 
-          {/* Title with Typing Effect */}
-          <div className="fade-in-up stagger-3 mb-6 min-h-[40px]">
+          {/* Title with Cycling Typewriter Effect */}
+          <div className="fade-in-up stagger-3 mb-6 min-h-[50px] flex items-center justify-center">
             <h2 className="font-display text-2xl md:text-3xl text-muted-foreground">
+              I'm a{" "}
               {showSubtitle && (
-                <TypeWriter 
-                  text="Data Analyst & BI Developer" 
-                  delay={80}
-                />
+                <TypeWriterCycle words={roles} delay={100} pauseDelay={2000} />
               )}
             </h2>
           </div>

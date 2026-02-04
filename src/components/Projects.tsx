@@ -1,4 +1,5 @@
-import { Calendar, TrendingUp, Users, BarChart2, ExternalLink } from 'lucide-react';
+import { Calendar, TrendingUp, Users, BarChart2 } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 const projects = [
   {
@@ -47,79 +48,83 @@ const Projects = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <span className="text-primary text-sm font-medium uppercase tracking-wider">Portfolio</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-4">
-              Featured <span className="glow-text">Projects</span>
-            </h2>
-            <div className="w-20 h-1 mx-auto rounded-full" style={{ background: 'var(--gradient-primary)' }} />
-          </div>
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <span className="text-primary text-sm font-medium uppercase tracking-wider shimmer-text">Portfolio</span>
+              <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-4">
+                Featured <span className="glow-text">Projects</span>
+              </h2>
+              <div className="w-20 h-1 mx-auto rounded-full" style={{ background: 'var(--gradient-primary)' }} />
+            </div>
+          </ScrollReveal>
 
           {/* Projects Grid */}
           <div className="grid lg:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <div key={project.title} className="project-card group">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                    project.color === 'primary' ? 'text-primary' : 'text-accent'
-                  }`} style={{ background: 'var(--gradient-glass)' }}>
-                    <project.icon size={24} />
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <Calendar size={14} />
-                    <span>{project.period}</span>
-                  </div>
-                </div>
-
-                {/* Title & Description */}
-                <h3 className="font-display text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground mb-4">{project.description}</p>
-
-                {/* Metrics */}
-                <div className="flex gap-6 mb-6 p-4 rounded-lg" style={{ background: 'var(--gradient-glass)' }}>
-                  {project.metrics.map((metric) => (
-                    <div key={metric.label}>
-                      <div className={`text-2xl font-bold font-display ${
-                        project.color === 'primary' ? 'glow-text' : 'accent-text'
-                      }`}>
-                        {metric.value}
-                      </div>
-                      <div className="text-xs text-muted-foreground">{metric.label}</div>
+              <ScrollReveal key={project.title} delay={150 * (index + 1)} direction={index % 2 === 0 ? 'left' : 'right'}>
+                <div className="project-card group h-full">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                      project.color === 'primary' ? 'text-primary' : 'text-accent'
+                    }`} style={{ background: 'var(--gradient-glass)' }}>
+                      <project.icon size={24} />
                     </div>
-                  ))}
-                </div>
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <Calendar size={14} />
+                      <span>{project.period}</span>
+                    </div>
+                  </div>
 
-                {/* Highlights */}
-                <ul className="space-y-2 mb-6">
-                  {project.highlights.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                      <TrendingUp size={14} className={`mt-1 flex-shrink-0 ${
-                        project.color === 'primary' ? 'text-primary' : 'text-accent'
-                      }`} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                  {/* Title & Description */}
+                  <h3 className="font-display text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground mb-4">{project.description}</p>
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                        project.color === 'primary' 
-                          ? 'text-primary border-primary/30 bg-primary/5' 
-                          : 'text-accent border-accent/30 bg-accent/5'
-                      }`}
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                  {/* Metrics */}
+                  <div className="flex gap-6 mb-6 p-4 rounded-lg" style={{ background: 'var(--gradient-glass)' }}>
+                    {project.metrics.map((metric) => (
+                      <div key={metric.label}>
+                        <div className={`text-2xl font-bold font-display ${
+                          project.color === 'primary' ? 'glow-text' : 'accent-text'
+                        }`}>
+                          {metric.value}
+                        </div>
+                        <div className="text-xs text-muted-foreground">{metric.label}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Highlights */}
+                  <ul className="space-y-2 mb-6">
+                    {project.highlights.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
+                        <TrendingUp size={14} className={`mt-1 flex-shrink-0 ${
+                          project.color === 'primary' ? 'text-primary' : 'text-accent'
+                        }`} />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className={`px-3 py-1 rounded-full text-xs font-medium border ${
+                          project.color === 'primary' 
+                            ? 'text-primary border-primary/30 bg-primary/5' 
+                            : 'text-accent border-accent/30 bg-accent/5'
+                        }`}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
