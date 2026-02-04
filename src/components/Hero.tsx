@@ -98,8 +98,7 @@ const Hero = () => {
 
           {/* Name */}
           <h1 className="fade-in-up stagger-2 font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-4">
-            <span className="text-foreground">Hi, I'm </span>
-            <AnimatedLetters text="Blessen Joel Gorinkala" className="glow-text" />
+            <span className="text-foreground">Hi, I'm Blessen Joel Gorinkala</span>
           </h1>
 
           {/* Title with Cycling Typewriter Effect */}
@@ -140,7 +139,7 @@ const Hero = () => {
               <Github size={20} />
             </a>
             <a
-              href="https://linkedin.com/in/blessenjoelgorinkala"
+              href="https://www.linkedin.com/in/blessen-joel-gorinkala-84972b3a5"
               target="_blank"
               rel="noopener noreferrer"
               className="social-icon"
@@ -149,7 +148,7 @@ const Hero = () => {
               <Linkedin size={20} />
             </a>
             <a
-              href="mailto:blessenjoel.gc@gmail.com"
+              href="mailto:blessenjoel.g@gmail.com"
               className="social-icon"
               aria-label="Email"
             >
