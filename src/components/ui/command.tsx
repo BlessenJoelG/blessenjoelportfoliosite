@@ -119,8 +119,6 @@ const CommandShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanE
 };
 CommandShortcut.displayName = "CommandShortcut";
 
-type CommandDialogProps = DialogProps;
-
 export {
   Command,
   CommandDialog,
