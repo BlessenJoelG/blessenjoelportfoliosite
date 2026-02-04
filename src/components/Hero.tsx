@@ -1,6 +1,52 @@
 import { Github, Linkedin, Mail, Phone, MapPin, Download, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+const TypeWriter = ({ text, delay = 100, className = "" }: { text: string; delay?: number; className?: string }) => {
+  const [displayText, setDisplayText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, delay);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex, delay, text]);
+
+  return (
+    <span className={className}>
+      {displayText}
+      <span className="typing-cursor" />
+    </span>
+  );
+};
+
+const AnimatedLetters = ({ text, className = "" }: { text: string; className?: string }) => {
+  return (
+    <span className={className}>
+      {text.split("").map((letter, index) => (
+        <span
+          key={index}
+          className="letter-pop"
+          style={{ animationDelay: `${index * 0.05}s` }}
+        >
+          {letter === " " ? "\u00A0" : letter}
+        </span>
+      ))}
+    </span>
+  );
+};
 
 const Hero = () => {
+  const [showSubtitle, setShowSubtitle] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSubtitle(true), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Elements */}
@@ -9,13 +55,13 @@ const Hero = () => {
       <div className="hero-glow w-80 h-80 -bottom-40 -right-40 floating-delayed" />
       
       {/* Floating Data Elements */}
-      <div className="absolute top-1/4 left-10 hidden lg:block floating opacity-20">
-        <div className="glass-card p-3 text-xs font-mono text-primary">
+      <div className="absolute top-1/4 left-10 hidden lg:block floating opacity-30">
+        <div className="glass-card p-3 text-xs font-mono text-primary glitch-text">
           SELECT * FROM insights
         </div>
       </div>
-      <div className="absolute bottom-1/3 right-16 hidden lg:block floating-delayed opacity-20">
-        <div className="glass-card p-3 text-xs font-mono text-accent">
+      <div className="absolute bottom-1/3 right-16 hidden lg:block floating-delayed opacity-30">
+        <div className="glass-card p-3 text-xs font-mono text-accent glitch-text">
           df.groupby('category')
         </div>
       </div>
@@ -25,29 +71,34 @@ const Hero = () => {
           {/* Status Badge */}
           <div className="fade-in-up stagger-1 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/5 mb-8">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-sm text-primary font-medium">Open to Opportunities</span>
+            <span className="text-sm text-primary font-medium shimmer-text">Open to Opportunities</span>
           </div>
 
           {/* Name */}
           <h1 className="fade-in-up stagger-2 font-display text-5xl md:text-7xl font-bold mb-4">
             <span className="text-foreground">Hi, I'm </span>
-            <span className="glow-text">Blessen Joel</span>
+            <AnimatedLetters text="Blessen Joel" className="glow-text" />
           </h1>
 
-          {/* Title */}
-          <div className="fade-in-up stagger-3 mb-6">
+          {/* Title with Typing Effect */}
+          <div className="fade-in-up stagger-3 mb-6 min-h-[40px]">
             <h2 className="font-display text-2xl md:text-3xl text-muted-foreground">
-              <span className="typing-cursor">Data Analyst & BI Developer</span>
+              {showSubtitle && (
+                <TypeWriter 
+                  text="Data Analyst & BI Developer" 
+                  delay={80}
+                />
+              )}
             </h2>
           </div>
 
-          {/* Description */}
+          {/* Description with Shimmer */}
           <p className="fade-in-up stagger-4 text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
             Transforming raw data into actionable insights. Specialized in 
-            <span className="text-primary"> SQL</span>, 
-            <span className="text-primary"> Python</span>, 
-            <span className="text-primary"> Power BI</span> & 
-            <span className="text-primary"> Tableau</span>. 
+            <span className="text-primary shimmer-text"> SQL</span>, 
+            <span className="text-primary shimmer-text"> Python</span>, 
+            <span className="text-primary shimmer-text"> Power BI</span> & 
+            <span className="text-primary shimmer-text"> Tableau</span>. 
             Building dashboards that drive business decisions.
           </p>
 
@@ -97,14 +148,14 @@ const Hero = () => {
           <div className="fade-in-up stagger-6 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#projects"
-              className="group px-8 py-3 rounded-lg font-medium text-primary-foreground transition-all duration-300 hover:scale-105"
+              className="group px-8 py-3 rounded-lg font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg"
               style={{ background: 'var(--gradient-primary)' }}
             >
               View My Work
             </a>
             <a
               href="#contact"
-              className="px-8 py-3 rounded-lg font-medium border border-border hover:border-primary/50 transition-all duration-300 hover:scale-105 flex items-center gap-2"
+              className="px-8 py-3 rounded-lg font-medium border border-border hover:border-primary/50 transition-all duration-300 hover:scale-105 flex items-center gap-2 hover:bg-primary/10"
             >
               <Download size={18} />
               Get Resume
